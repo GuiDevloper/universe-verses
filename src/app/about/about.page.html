@@ -1,0 +1,96 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>
+      Sobre
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card class="welcome-card">
+    <ion-img src="/assets/shapes.svg"></ion-img>
+    <ion-card-header>
+      <ion-item *ngIf="editing; else nome">
+        <ion-label position="floating">Nome</ion-label>
+        <ion-input [(ngModel)]="about.nome"></ion-input>
+      </ion-item>
+      <ion-card-title>
+        <ng-template #nome>{{ about?.nome }}</ng-template>
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item *ngIf="editing; else bio">
+        <ion-label position="floating">Biografia</ion-label>
+        <ion-input [(ngModel)]="about.bio"></ion-input>
+      </ion-item>
+      <ng-template #bio>{{ about?.bio }}</ng-template>
+    </ion-card-content>
+    <ion-item>
+      <ion-button *ngIf="user.isLogged() | async" (click)="edit()">
+        {{ editing ? 'Salvar' : 'Editar' }}
+      </ion-button>
+    </ion-item>
+  </ion-card>
+
+  <ion-card *ngIf="user.isLogged() | async">
+    <ion-card-header>
+      <ion-card-title>
+        <ion-item>
+          <ion-label position="floating">Título</ion-label>
+          <ion-input [(ngModel)]="verse.title"></ion-input>
+        </ion-item>
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item>
+        <ion-label position="floating">Verso</ion-label>
+        <ion-input [(ngModel)]="verse.verse"></ion-input>
+      </ion-item>
+    </ion-card-content>
+    <ion-item>
+      <ion-button (click)="id ? editV() : versar()">
+        {{ id ? 'Editar' : 'Versar' }}
+      </ion-button>
+      <ion-button *ngIf="id" (click)="delV()">
+        Desversar
+      </ion-button>
+    </ion-item>
+  </ion-card>
+
+  <ion-card *ngIf="id; else vrses">
+    <ion-card-header>
+      <ion-card-subtitle>
+        {{ vrse.getDate(verse.time) }}
+      </ion-card-subtitle>
+      <ion-card-title>
+        {{ verse.title }}
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      {{ verse.verse }}
+    </ion-card-content>
+  </ion-card>
+
+  <ng-template #vrses>
+    <ion-grid>
+      <ion-row>
+        <ion-col *ngFor="let v of verses; let i = index">
+          <ion-card [routerLink]="['/sobre/'+i]" class="v-card">
+            <ion-card-header>
+              <ion-card-subtitle>
+                {{ vrse.getDate(v.time) }}
+              </ion-card-subtitle>
+              <ion-card-title> {{ v.title }} </ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              {{ v.verse }}
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ng-template>
+</ion-content>
