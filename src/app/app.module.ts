@@ -12,6 +12,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth';
+import { ModalPageModule } from './modal/modal.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -22,7 +23,8 @@ import { AngularFireAuthModule } from 'angularfire2/auth';
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebase, 'universo'),
     AngularFireDatabaseModule,
-    AngularFireAuthModule
+    AngularFireAuthModule,
+    ModalPageModule
   ],
   providers: [
     StatusBar,

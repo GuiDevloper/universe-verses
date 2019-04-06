@@ -1,0 +1,20 @@
+<ion-header>
+
+  <ion-toolbar>
+    <ion-title> Aviso </ion-title>
+    <ion-button (click)="closeModal()" slot="end">Fechar</ion-button>
+  </ion-toolbar>
+
+</ion-header>
+
+<ion-content padding>
+  <ion-row>
+    <ion-col>
+      <ion-list inset>
+        <ion-item class="erro">
+          {{ erro }}
+        </ion-item>
+      </ion-list>
+    </ion-col>
+  </ion-row>
+</ion-content>

@@ -16,7 +16,7 @@ export class AboutPage implements OnInit {
   id = this.route.snapshot.paramMap.get('id');
   verseId: string;
 
-  constructor(private user: UserService,
+  constructor(public user: UserService,
     private vrse: VerseService,
     private route: ActivatedRoute) { }
 

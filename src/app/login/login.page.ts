@@ -9,7 +9,7 @@ import { UserService } from '../core';
 export class LoginPage implements OnInit {
   error: string;
 
-  constructor(private user: UserService) { }
+  constructor(public user: UserService) { }
 
   ngOnInit() {
   }
