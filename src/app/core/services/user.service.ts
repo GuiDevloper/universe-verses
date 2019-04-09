@@ -49,6 +49,10 @@ export class UserService {
     return this.ngAuth.authState;
   }
 
+  logOut(): void {
+    this.ngAuth.auth.signOut().then(() => this.goTo(''));
+  }
+
   goTo(url: string): void {
     this.ngZone.run(() => {
       return this.router.navigateByUrl(url);

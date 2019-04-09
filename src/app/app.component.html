@@ -8,13 +8,21 @@
       </ion-header>
       <ion-content>
         <ion-list>
-          <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages">
-            <ion-item [routerDirection]="'root'" [routerLink]="[p.url]">
-              <ion-icon slot="start" [name]="p.icon"></ion-icon>
-              <ion-label>
-                {{p.title}}
-              </ion-label>
+          <ion-menu-toggle
+            auto-hide="false"
+            *ngFor="let p of appPages; let i = index">
+            <ion-item class="logOut"
+              *ngIf="(user.isLogged() | async) && i == 1; else logOut"
+              (click)="user.logOut()">
+              <ion-icon slot="start" [name]="p[2]"></ion-icon>
+              <ion-label> Sair </ion-label>
             </ion-item>
+            <ng-template #logOut>
+              <ion-item [routerDirection]="'root'" [routerLink]="[p[1]]">
+                <ion-icon slot="start" [name]="p[2]"></ion-icon>
+                <ion-label> {{ p[0] }}</ion-label>
+              </ion-item>
+            </ng-template>
           </ion-menu-toggle>
         </ion-list>
       </ion-content>
