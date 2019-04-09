@@ -46,23 +46,17 @@ export class AboutPage implements OnInit {
 
   editV(): void {
     this.vrse.update(this.verse, this.verseId)
-      .then(err => console.log(err));
+      .then(err => this.user.alert(err));
   }
 
   delV(): void {
     this.vrse.delete(this.verseId)
-      .then(err => console.log(err));
+      .then(err => this.user.alert(err));
   }
 
   versar(): void {
     this.vrse.create(this.verse)
-      .then(err => {
-        if (err === null) {
-          this.vrse = null;
-        } else {
-          console.log(err);
-        }
-      });
+      .then(err => this.user.alert(err));
   }
 
 }

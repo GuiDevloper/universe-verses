@@ -7,7 +7,6 @@ import { UserService } from '../core';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
-  error: string;
 
   constructor(public user: UserService) { }
 
@@ -15,7 +14,7 @@ export class LoginPage implements OnInit {
   }
 
   login(): void {
-    this.user.login().then(err => this.error = err);
+    this.user.login().then(err => this.user.alert(err));
   }
 
 }

@@ -4,6 +4,8 @@ import { AngularFireAuth } from 'angularfire2/auth';
 import { About, User } from '../models';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
+import { NavController, ModalController } from '@ionic/angular';
+import { ModalPage } from '../../modal/modal.page';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +16,9 @@ export class UserService {
   constructor(private db: AngularFireDatabase,
     private ngAuth: AngularFireAuth,
     private ngZone: NgZone,
-    private router: Router) { }
+    private router: Router,
+    public navCtrl: NavController,
+    public modalCtrl: ModalController) { }
 
   getAll(): Observable<any> {
     return this.db.object('/user/about').valueChanges();
@@ -49,6 +53,14 @@ export class UserService {
     this.ngZone.run(() => {
       return this.router.navigateByUrl(url);
     });
+  }
+
+  async alert(err: string) {
+    const Modal = await this.modalCtrl.create({
+      component: ModalPage,
+      componentProps: { erro: err }
+    });
+    Modal.present();
   }
 
 }
