@@ -12,7 +12,7 @@
             auto-hide="false"
             *ngFor="let p of appPages; let i = index">
             <ion-item class="logOut"
-              *ngIf="(user.isLogged() | async) && i == 1; else logOut"
+              *ngIf="(user.isLogged() | async) && i == 2; else logOut"
               (click)="user.logOut()">
               <ion-icon slot="start" [name]="p[2]"></ion-icon>
               <ion-label> Sair </ion-label>

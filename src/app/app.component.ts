@@ -14,8 +14,8 @@ export class AppComponent {
   public appPages = [
     // title, url, icon
     [ 'Início', '', 'home' ],
+    [ 'Sobre', '/sobre', 'person' ],
     [ 'Login', '/login', 'person' ],
-    [ 'Sobre', '/sobre', 'person' ]
   ];
 
   constructor(public user: UserService,
