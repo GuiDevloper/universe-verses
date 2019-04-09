@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { Verse } from '../models';
-import { first } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -27,10 +26,17 @@ export class VerseService {
 
   create(verse: Verse): Promise<any> {
     return new Promise(resolve => {
-      verse['time'] = new Date().getTime();
-      this.db.list('/verses').push(verse)
-        .then(() => resolve('null'))
-        .catch(err => resolve(err));
+      verse = {
+        title: verse.title.trim(),
+        verse: verse.verse.trim(), time: 0 }
+      if (verse.title.length > 0 && verse.verse.length > 0) {
+        verse['time'] = new Date().getTime();
+        this.db.list('/verses').push(verse)
+          .then(() => resolve('Verso criado com sucesso'))
+          .catch(err => resolve(err));
+      } else {
+        resolve('Opa! Digite o verso completo');
+      }
     });
   }
 
@@ -41,16 +47,20 @@ export class VerseService {
         verse: value.verse.trim(),
         time: new Date().getTime()
       };
-      this.db.object(`verses/${id}`).update(newVal)
-        .then(() => resolve(null))
-        .catch(() => resolve('error'));
+      if (newVal.title.length > 0 && newVal.verse.length > 0) {
+        this.db.object(`verses/${id}`).update(newVal)
+          .then(() => resolve('Verso editado com sucesso'))
+          .catch(err => resolve(err));
+      } else {
+        resolve('Opa! Digite o verso completo');
+      }
     });
   }
 
-  delete(id: string): Promise<void> {
+  delete(id: string): Promise<any> {
     return new Promise(resolve => {
       this.db.object(`verses/${id}`).remove()
-        .then(() => resolve(null))
+        .then(() => resolve('Verso removido com sucesso'))
         .catch(err => resolve(err));
     });
   }

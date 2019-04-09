@@ -31,17 +31,19 @@ export class UserService {
       .then(() => {
         this.goTo('/sobre');
       })
-      .catch(err => {
-        resolve(err);
-      });
+      .catch(err => resolve(this.handleError(err)));
     });
   }
 
   update(newVal: About): Promise<any> {
     return new Promise(resolve => {
-      this.db.object(`user/about`).update(newVal)
+      if (newVal.bio.length > 0 && newVal.nome.length > 0) {
+        this.db.object(`user/about`).update(newVal)
         .then(() => resolve(null))
-        .catch(() => resolve('error'));
+        .catch(err => resolve(err));
+      } else {
+        resolve('Hey! Se descreva em todos os campos');
+      }
     });
   }
 
@@ -65,6 +67,18 @@ export class UserService {
       componentProps: { erro: err }
     });
     Modal.present();
+  }
+
+  handleError(err: any): string {
+    err = err.code.includes('invalid-email') ?
+    'Epa! Preencha todos os campos corretamente' : (
+      err.code.includes('wrong-password') ? 'Ops, senha errada' : (
+        err.code.includes('user-not-found') ?
+        'Nenhuma conta de Versador correspondente' :
+        'Eita! Algo desaconteceu, tente novamente'
+      )
+    );
+    return err;
   }
 
 }

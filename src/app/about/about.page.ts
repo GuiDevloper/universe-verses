@@ -38,7 +38,13 @@ export class AboutPage implements OnInit {
   edit(): void {
     if (this.editing) {
       this.user.update(this.about)
-        .then(() => this.editing = false);
+        .then(err => {
+          if (err !== null) {
+            this.user.alert(err);
+          } else {
+            this.editing = false;
+          }
+        });
     } else {
       this.editing = true;
     }
@@ -51,7 +57,12 @@ export class AboutPage implements OnInit {
 
   delV(): void {
     this.vrse.delete(this.verseId)
-      .then(err => this.user.alert(err));
+      .then(err => {
+        if (err.includes('sucesso')) {
+          this.user.goTo('');
+        }
+        this.user.alert(err);
+      });
   }
 
   versar(): void {
